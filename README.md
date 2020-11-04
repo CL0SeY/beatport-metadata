@@ -4,7 +4,7 @@ Purpose:
 --------
 When you have a file like `1234567_Some_Random_Track_Original_Mix.wav` off Beatport, and you want to know something basic, like, who the actual artist is, this will scrape some track info off the Beatport embed page and output it to the console.
 
-Will scan a directory for files that start with 7 digits.
+Will scan a directory for files that start with 4-10 digits.
 
 You can then choose to have some regular lines of output (default), JSON output, or actually rename the files with the useful information.
 
