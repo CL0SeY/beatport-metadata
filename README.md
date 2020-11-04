@@ -4,14 +4,20 @@ Requirements:
 -------------
 Tested with Node v12.16.2 (Linux)
 
-Usage:
+Setup:
 ------
 ```
 npm install
-Usage: index.js [-v|-s] <directory to scan for beatport files>
+```
+
+Usage:
+------
+```
+Usage: index.js [-j|-v|-s] <directory to scan for beatport files>
 
 -v verbose - show errors
 -s skip - skip output for files we could not find information for
+-j json output - output a simple JSON map of filename: track name
 ```
 e.g.
 ```
