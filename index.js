@@ -3,31 +3,45 @@ const { parse } = require('himalaya');
 const superagent = require('superagent');
 const digits = /^\d{7}/m;
 
-const tracks = fs.readdirSync(process.argv[2] || process.env.PWD);
+const verbose = process.argv[2] === "-v"
+const skip = process.argv[2] === "-s"
+const dirArg = (verbose || skip) ? 3 : 2
+let tracks = [];
+if (process.argv.length - 1 > dirArg) {
+  console.error('Bad syntax.')
+} else {
+  tracks = fs.readdirSync(process.argv[dirArg] || process.env.PWD);
+}
 
-const success = false;
-
-tracks.forEach(track => {
+const results = tracks.map(async (track) => {
   const m = digits.exec(track);
   if (m) {
-    const request = superagent
-      .get(`https://embed.beatport.com/player/?id=${m[0]}}&type=track`)
-      .end((err, res) => {
-        try {
-          const html = res.text;
-          const json = parse(html);
-          const elem = json[1].children[0].children[18]
-          console.log(m[0], elem.attributes[1].value)
-          success = true;
-        } catch (error) {
-          console.log(track)
-        }
-      })
+    const res = await superagent.get(`https://embed.beatport.com/player/?id=${m[0]}}&type=track`);
+    try {
+      const html = res.text;
+      const json = parse(html);
+      const elem = json[1].children[0].children[18]
+      console.log(m[0], elem.attributes[1].value)
+      return true;
+    } catch (error) {
+      if (verbose) {
+        console.error(track, error)
+      } else if (!skip) {
+        console.log(track)
+      }
+      return false;
+    }
+  } else {
+    return false;
   }
-});
-
-if (!success) {
-  console.log('No great success in scanning any files.')
-  console.log()
-  console.log('Usage: index.js <directory to scan for beatport files>')
-}
+})
+Promise.all(results).then(r => r.filter(x => x).length).then(success => {
+  if (!success) {
+    console.log('No great success in scanning any files.')
+    console.log()
+    console.log('Usage: index.js [-v|-s] <directory to scan for beatport files>')
+    console.log()
+    console.log('-v verbose - show errors')
+    console.log('-s skip - skip output for files we could not find information for')
+  }
+})
