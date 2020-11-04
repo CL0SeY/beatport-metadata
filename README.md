@@ -29,8 +29,9 @@ Output:
 
 What do I do with the output?:
 -------
-You could copy and paste the output into "Foobar": https://wiki.hydrogenaud.io/index.php?title=Foobar2000:Properties/Automatically_Fill_Values
+You could copy and paste the output into "Foobar2000": https://wiki.hydrogenaud.io/index.php?title=Foobar2000:Properties/Automatically_Fill_Values
 This will let you update the metadata on your files. Just make sure the order of the output matches the order of your files in foobar.
+A pattern you could use in Foobar2000 would be `%beatportid% %artist% - %title% [%label%]`
 
 Note:
 -----
