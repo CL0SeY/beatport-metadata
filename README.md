@@ -7,12 +7,11 @@ Tested with Node v12.16.2 (Linux)
 Usage:
 ------
 ```
-yarn
+npm install
 node index.js <directory to scan for beatport files>
 ```
 e.g.
 ```
-yarn
 node index.js /path/to/my/tunes
 ```
 If you wanted to sort the output, this should work too based on your OS's standard sort utility:
