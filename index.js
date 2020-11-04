@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { parse } = require('himalaya');
 const superagent = require('superagent');
-const digits = /^\d{7}/m;
+const digits = /^(\d{4,10})_/m;
 
 const verbose = process.argv[2] === "-v"
 const skip = process.argv[2] === "-s"
@@ -24,8 +24,10 @@ const outputJson = {}
 const results = tracks.map(async (track) => {
   const m = digits.exec(track);
   const ext = path.extname(track);
+  const filePart = track.substr(0, track.length - ext.length)
   if (m) {
-    const res = await superagent.get(`https://embed.beatport.com/player/?id=${m[0]}}&type=track`);
+    const beatportId = m[1]
+    const res = await superagent.get(`https://embed.beatport.com/player/?id=${beatportId}}&type=track`);
     try {
       const html = res.text;
       const json = parse(html);
@@ -37,7 +39,7 @@ const results = tracks.map(async (track) => {
       } else if (rename || renameWithId) {
         console.log('Skipped', track)
       } else if (!skip && !json) {
-        console.log(track)
+        console.log(`${filePart} [Unknown]`)
       }
       return false;
     }
@@ -46,11 +48,11 @@ const results = tracks.map(async (track) => {
       console.log(`Renaming ${track} to ${newTrack}`)
       fs.renameSync(path.join(directory, track), path.join(directory, newTrack))
     } else if (renameWithId) {
-      const newTrack = `${m[0]}_${outputJson[track]}${ext}`
+      const newTrack = `${beatportId}_${outputJson[track]}${ext}`
       console.log(`Renaming ${track} to ${newTrack}`)
       fs.renameSync(path.join(directory, track), path.join(directory, newTrack))
     } else if (!json) {
-      console.log(m[0], outputJson[track])
+      console.log(`${beatportId}_${outputJson[track]}`)
     }
     return true;
   } else {
