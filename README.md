@@ -8,15 +8,18 @@ Usage:
 ------
 ```
 npm install
-node index.js <directory to scan for beatport files>
+Usage: index.js [-v|-s] <directory to scan for beatport files>
+
+-v verbose - show errors
+-s skip - skip output for files we could not find information for
 ```
 e.g.
 ```
-node index.js /path/to/my/tunes
+node index.js -s /path/to/my/tunes
 ```
 If you wanted to sort the output, this should work too based on your OS's standard sort utility:
 ```
-node index.js /path/to/my/tunes | sort
+node index.js -s /path/to/my/tunes | sort
 ```
   
 Output:
