@@ -1,5 +1,11 @@
 # beatport-metadata
 
+Purpose:
+--------
+When you have a file like `1234567_Some_Random_Track_Original_Mix.wav` off Beatport, and you want to know something basic, like, who the actual artist is, this will scrape some track info off the Beatport embed page and output it to the console.
+
+Will scan a directory for files that start with 7 digits.
+
 Requirements:
 -------------
 Tested with Node v12.16.2 (Linux)
@@ -31,8 +37,8 @@ node index.js -s /path/to/my/tunes | sort
 Output:
 -------
 ```
-12345678 Arist1, Artist2 - Track Title (Whatever Mix) [Record Label]
-88888888_My_File_That_Doesnt_Exist_On_BP_Anymore
+1234567 Arist1, Artist2 - Track Title (Whatever Mix) [Record Label]
+8888888_My_File_That_Doesnt_Exist_On_BP_Anymore
 ```
 
 What do I do with the output?:
@@ -48,3 +54,7 @@ This was working at some point. If the format of the beatport embed page breaks,
 Beatport, read this:
 --------------------
 Wouldn't it be nice if there was a real API? And metadata added to .WAV files that people download?
+
+Disclaimer:
+-----------
+Not related in any way shape or form to Beatport!
